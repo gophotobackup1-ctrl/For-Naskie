@@ -118,17 +118,6 @@ h1{
   font-size:0.7rem;
 }
 
-/* music button */
-#musicBtn{
-  position:fixed;
-  top:15px;
-  right:15px;
-  background:#ff4444;
-  color:#fff;
-  padding:8px 10px;
-  border-radius:50%;
-  font-size:14px;
-}
 .signature{
   margin-top:15px;
   color:#ff4444;
@@ -138,11 +127,13 @@ h1{
 
 <body>
 
-<audio id="music" loop>
-  <source src="https://cdn.pixabay.com/audio/2022/10/30/audio_8c1a94d75a.mp3" type="audio/mpeg">
-</audio>
-
-<div id="musicBtn" onclick="toggleMusic()">🎵</div>
+<!-- Spotify Minecraft Music (C418 style) -->
+<iframe style="border-radius:12px;margin-bottom:10px"
+src="https://open.spotify.com/embed/track/0kR1a2hLS3S7c3K0LNYkYH"
+width="100%" height="80"
+frameborder="0"
+allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture">
+</iframe>
 
 <!-- PAGE 1 -->
 <div class="page active">
@@ -151,7 +142,7 @@ h1{
     <p>IGN: NASK</p>
     <p>Server: OnlyBlocks</p>
 
-    <div class="chest" onclick="start()"></div>
+    <div class="chest" onclick="go(2)"></div>
     <p style="font-size:0.6rem">Tap chest</p>
   </div>
 </div>
@@ -162,9 +153,10 @@ h1{
     <h1>PVP RECORDS</h1>
 
     <div class="cards">
-      <div class="card">PvP Chaos</div>
-      <div class="card">Never backs down</div>
+      <div class="card">Endless PvP fights</div>
+      <div class="card">Pure chaos moments</div>
       <div class="card">OnlyBlocks grind</div>
+      <div class="card">Always ready</div>
     </div>
 
     <div class="chest" onclick="go(3)"></div>
@@ -179,7 +171,7 @@ h1{
     <p>HP: <span id="hp">5</span></p>
     <div id="warden">👾</div>
     <div id="sword">🗡️</div>
-    <p style="font-size:0.6rem">Tap anywhere to attack</p>
+    <p style="font-size:0.6rem">Tap to attack</p>
     <div id="result"></div>
 
     <div class="chest" onclick="go(4)"></div>
@@ -189,37 +181,35 @@ h1{
 <!-- PAGE 4 -->
 <div class="page">
   <div class="panel">
-    <h1>RESPECT</h1>
-    <p style="font-size:0.65rem;line-height:1.6">
-      OnlyBlocks wouldn’t be the same without players like you.
+    <h1>BROTHERHOOD</h1>
+
+    <p style="font-size:0.65rem;line-height:1.7">
+      Not every player you meet on a server
+      actually becomes someone real.
       <br><br>
-      Real PvP. Real chaos. Real respect.
+      From random PvP encounters
+      to long grinds and chaos,
+      OnlyBlocks wouldn’t feel the same
+      without players like you.
       <br><br>
-      I'm grateful to have a great friend like you and i wish you the best of luck for your coming years 🙌
+      Glad to share the server with you, bro.
     </p>
+
     <div class="signature">— pwkie</div>
   </div>
 </div>
 
 <script>
-let hp=5;
-const warden=document.getElementById("warden");
-const hpText=document.getElementById("hp");
-const result=document.getElementById("result");
-
 function go(n){
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
   document.querySelectorAll('.page')[n-1].classList.add('active');
 }
 
-function start(){
-  go(2);
-  document.getElementById("music").play();
-}
-
-document.addEventListener("click",()=>{
-  if(!document.querySelector('.page:nth-child(4)').classList.contains('active')) return;
-});
+/* Warden game logic (easy) */
+let hp=5;
+const hpText=document.getElementById("hp");
+const warden=document.getElementById("warden");
+const result=document.getElementById("result");
 
 document.getElementById("warden").parentElement.addEventListener("click",()=>{
   if(hp<=0) return;
@@ -231,13 +221,6 @@ document.getElementById("warden").parentElement.addEventListener("click",()=>{
     result.innerText="🏆 WARDEN DEFEATED!";
   }
 });
-
-let playing=true;
-function toggleMusic(){
-  const m=document.getElementById("music");
-  if(playing){m.pause();playing=false}
-  else{m.play();playing=true}
-}
 </script>
 
 </body>
