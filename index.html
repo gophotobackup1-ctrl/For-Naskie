@@ -33,27 +33,28 @@ body{
 .page{
   display:none;
   height:100vh;
-  padding:25px 15px;
+  padding:20px 15px;
   text-align:center;
 }
 .active{display:block}
 
 .panel{
-  background:rgba(0,0,0,0.7);
+  background:rgba(0,0,0,0.75);
   border:2px solid #ff4444;
   border-radius:10px;
   padding:20px;
-  box-shadow:0 0 20px rgba(255,0,0,0.3);
+  box-shadow:0 0 20px rgba(255,0,0,0.35);
 }
 
 h1{
-  font-size:1.4rem;
+  font-size:1.2rem;
   color:#ff4444;
   margin-bottom:15px;
 }
 
+/* chest */
 .chest{
-  margin:30px auto;
+  margin:25px auto;
   width:90px;height:90px;
   background:#8b4513;
   border:4px solid #3b2000;
@@ -80,25 +81,25 @@ h1{
   display:flex;
   gap:15px;
   overflow-x:auto;
-  padding:20px 5px;
+  padding:15px 5px;
   scroll-snap-type:x mandatory;
 }
 .card{
   min-width:180px;
-  height:110px;
+  height:100px;
   background:#111;
   border:2px solid #ff4444;
   border-radius:6px;
   display:flex;
   align-items:center;
   justify-content:center;
-  font-size:0.65rem;
+  font-size:0.6rem;
   scroll-snap-align:center;
 }
 .cards::-webkit-scrollbar{display:none}
 
 .final-text{
-  font-size:0.7rem;
+  font-size:0.65rem;
   line-height:1.6;
   color:#ddd;
 }
@@ -106,10 +107,52 @@ h1{
   margin-top:15px;
   color:#ff4444;
 }
+
+/* ===== MINI GAME ===== */
+#game{
+  margin-top:15px;
+  padding:15px;
+  border:2px solid #ff4444;
+  border-radius:10px;
+}
+#hp{
+  font-size:0.6rem;
+  margin-bottom:10px;
+}
+#warden{
+  font-size:70px;
+  margin:10px 0;
+}
+#sword{
+  font-size:40px;
+  animation:float 1s infinite alternate;
+}
+@keyframes float{
+  from{transform:translateY(0)}
+  to{transform:translateY(-10px)}
+}
+.hit{
+  animation:shake 0.1s;
+}
+@keyframes shake{
+  0%{transform:translateX(0)}
+  50%{transform:translateX(6px)}
+  100%{transform:translateX(-6px)}
+}
+#result{
+  margin-top:10px;
+  color:#00ff99;
+  font-size:0.7rem;
+}
 </style>
 </head>
 
 <body>
+
+<!-- Minecraft Music (C418-style) -->
+<iframe width="0" height="0"
+src="https://www.youtube.com/embed/MmB9b5njVbA?autoplay=1&loop=1&playlist=MmB9b5njVbA"
+frameborder="0" allow="autoplay"></iframe>
 
 <!-- PAGE 1 -->
 <div class="page active">
@@ -128,7 +171,7 @@ h1{
   <div class="panel">
     <h1>PvP RECORDS</h1>
 
-    <div class="cards" id="cards">
+    <div class="cards">
       <div class="card">Insane PvP fights</div>
       <div class="card">Violence & chaos</div>
       <div class="card">OnlyBlocks grind</div>
@@ -143,6 +186,25 @@ h1{
 <!-- PAGE 3 -->
 <div class="page">
   <div class="panel">
+    <h1>COMBAT TRIAL</h1>
+
+    <!-- MINI GAME -->
+    <div id="game">
+      <div id="hp">Warden HP: <span id="health">6</span></div>
+      <div id="warden">👾</div>
+      <div id="sword">🗡️</div>
+      <p style="font-size:0.55rem">Tap anywhere to attack</p>
+      <p id="result"></p>
+    </div>
+
+    <div class="chest" onclick="go(4)"></div>
+    <p style="font-size:0.6rem">Continue</p>
+  </div>
+</div>
+
+<!-- PAGE 4 -->
+<div class="page">
+  <div class="panel">
     <h1>RESPECT</h1>
 
     <p class="final-text">
@@ -154,7 +216,7 @@ h1{
       Respect to a real one.
     </p>
 
-    <div class="signature">— Agni</div>
+    <div class="signature">— pwkie</div>
   </div>
 </div>
 
@@ -163,6 +225,26 @@ function go(n){
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
   document.querySelectorAll('.page')[n-1].classList.add('active');
 }
+
+/* ===== GAME LOGIC (EASY WARDEN) ===== */
+let hp = 6; // easy mode
+const health = document.getElementById("health");
+const warden = document.getElementById("warden");
+const result = document.getElementById("result");
+
+document.getElementById("game").addEventListener("click",()=>{
+  if(hp<=0) return;
+
+  hp--;
+  health.innerText = hp;
+
+  warden.classList.add("hit");
+  setTimeout(()=>warden.classList.remove("hit"),100);
+
+  if(hp===0){
+    result.innerText = "🏆 WARDEN DEFEATED!";
+  }
+});
 </script>
 
 </body>
